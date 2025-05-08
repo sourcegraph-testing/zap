@@ -1,0 +1,42 @@
+name: Simple Test
+
+on:
+  push:
+    branches: [ '*' ]
+  workflow_dispatch:
+    inputs:
+      should_fail:
+        description: 'Set to "true" to make the workflow fail, any other value for pass'
+        required: false
+        default: 'false'
+        type: string
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Run a deterministic test
+        run: |
+          # For push events, check the commit message
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            COMMIT_MSG=$(git log -1 --pretty=%B)
+            echo "Commit message: $COMMIT_MSG"
+            if [[ "$COMMIT_MSG" == *"[fail]"* ]]; then
+              echo "Test set to fail based on [fail] in commit message"
+              exit 1
+            else
+              echo "Test passed - no [fail] tag in commit message"
+              exit 0
+            fi
+          # For workflow_dispatch events, use the input parameter
+          else
+            if [[ "${{ github.event.inputs.should_fail }}" == "true" ]]; then
+              echo "Test set to fail based on input parameter"
+              exit 1
+            else
+              echo "Test passed based on input parameter"
+              exit 0
+            fi
+          fi
