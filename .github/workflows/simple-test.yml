@@ -2,7 +2,7 @@ name: Simple Test
 
 on:
   push:
-    branches: [ '*' ]
+    branches:  '**' 
   workflow_dispatch:
     inputs:
       should_fail:
