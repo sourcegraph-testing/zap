@@ -335,5 +335,3 @@ func Runes(key string, rs []rune) Field {
 	return Array(key, runes(rs))
 }
 
-// BUILD_BREAK references an undefined identifier and fails `go build`.
-var _ = undefinedBuildBreakSymbol
