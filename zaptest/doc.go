@@ -20,3 +20,5 @@
 
 // Package zaptest provides a variety of helpers for testing log output.
 package zaptest // import "go.uber.org/zap/zaptest"
+
+// See the project README for usage examples and configuration options.
