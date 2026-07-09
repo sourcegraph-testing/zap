@@ -318,3 +318,20 @@ func (nums uintptrs) MarshalLogArray(arr zapcore.ArrayEncoder) error {
 	}
 	return nil
 }
+
+// runes is an array helper for slices of rune, mirroring the existing
+// typed array helpers in this file.
+type runes []rune
+
+func (rs runes) MarshalLogArray(arr zapcore.ArrayEncoder) error {
+	for i := range rs {
+		arr.AppendInt32(int32(rs[i]))
+	}
+	return nil
+}
+
+// Runes constructs a field that carries a slice of runes.
+func Runes(key string, rs []rune) Field {
+	return Array(key, runes(rs))
+}
+
