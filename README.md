@@ -134,4 +134,4 @@ pinned in the [benchmarks/go.mod][] file. [↩](#anchor-versions)
 
 Hello World
 Hello World
-Round 7 CI repair pending.
+Maintained by the platform team.
