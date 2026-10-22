@@ -1,4 +1,4 @@
-# :zap: zap [![GoDoc][doc-img]][doc] [![Build Status][ci-img]][ci] [![Coverage Status][cov-img]][cov]
+# :zap: zap [![GoDoc][doc-img]][doc]
 
 Blazing fast, structured, leveled logging in Go.
 
@@ -125,10 +125,6 @@ pinned in the [benchmarks/go.mod][] file. [↩](#anchor-versions)
 
 [doc-img]: https://godoc.org/go.uber.org/zap?status.svg
 [doc]: https://godoc.org/go.uber.org/zap
-[ci-img]: https://travis-ci.com/uber-go/zap.svg?branch=master
-[ci]: https://travis-ci.com/uber-go/zap
-[cov-img]: https://codecov.io/gh/uber-go/zap/branch/master/graph/badge.svg
-[cov]: https://codecov.io/gh/uber-go/zap
 [benchmarking suite]: https://github.com/uber-go/zap/tree/master/benchmarks
 [benchmarks/go.mod]: https://github.com/uber-go/zap/blob/master/benchmarks/go.mod
 
