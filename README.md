@@ -135,3 +135,13 @@ pinned in the [benchmarks/go.mod][] file. [↩](#anchor-versions)
 Hello World
 Hello World
 Maintained by the platform team.
+
+## FAQ
+
+### What is structured logging?
+
+Structured logging records each log entry as a set of key-value fields (for example, JSON) rather than free-form text, which makes logs easy to search, filter, and analyze with log tooling.
+
+### Should I use `Logger` or `SugaredLogger` for structured logging?
+
+Use `Logger` when performance and type safety are critical; it accepts strongly typed fields such as `zap.String` and `zap.Int`. Use `SugaredLogger` when you prefer a more familiar, loosely typed API with key-value pairs and `printf`-style methods.
