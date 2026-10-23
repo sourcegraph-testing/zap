@@ -135,3 +135,5 @@ pinned in the [benchmarks/go.mod][] file. [↩](#anchor-versions)
 Hello World
 Hello World
 Maintained by the platform team.
+
+Contributions are welcome; please open an issue before a large change.
