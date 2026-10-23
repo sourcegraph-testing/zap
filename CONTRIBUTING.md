@@ -79,3 +79,7 @@ We're much more likely to approve your changes if you:
 [open-issue]: https://github.com/uber-go/zap/issues/new
 [cla]: https://cla-assistant.io/uber-go/zap
 [commit-message]: http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
+
+## Reporting security issues
+
+Please do not report security vulnerabilities through public issues or pull requests. Instead, email [security@example.com](mailto:security@example.com) with a description of the issue and steps to reproduce it.
