@@ -2,6 +2,8 @@
 
 Blazing fast, structured, leveled logging in Go.
 
+zap is a structured, leveled logging library for Go, built for applications that log in the hot path. It offers two APIs: the `Logger`, which uses strongly typed fields and a reflection-free, zero-allocation JSON encoder for maximum performance, and the `SugaredLogger`, a slightly slower but more ergonomic API that supports both structured and `printf`-style logging. zap is stable, makes no breaking changes within the 1.x series, and is released under the MIT License.
+
 ## Installation
 
 `go get -u go.uber.org/zap`
