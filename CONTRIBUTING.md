@@ -75,7 +75,18 @@ We're much more likely to approve your changes if you:
 * Write a [good commit message][commit-message].
 * Maintain backward compatibility.
 
+## Reporting bugs
+
+If you think you've found a bug, please search the [issue tracker][issues]
+first to see whether it has already been reported. If it hasn't,
+[open a new issue][open-issue] and include:
+
+* The versions of zap and Go you're using.
+* A minimal code sample that reproduces the problem.
+* What you expected to happen and what actually happened.
+
 [fork]: https://github.com/uber-go/zap/fork
 [open-issue]: https://github.com/uber-go/zap/issues/new
 [cla]: https://cla-assistant.io/uber-go/zap
 [commit-message]: http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
+[issues]: https://github.com/uber-go/zap/issues
