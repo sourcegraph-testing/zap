@@ -60,6 +60,7 @@ type Sink interface {
 
 type nopCloserSink struct{ zapcore.WriteSyncer }
 
+// Close implements io.Closer and is a no-op.
 func (nopCloserSink) Close() error { return nil }
 
 type errSinkNotFound struct {
