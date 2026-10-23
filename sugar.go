@@ -286,6 +286,7 @@ type invalidPair struct {
 	key, value interface{}
 }
 
+// MarshalLogObject implements zapcore.ObjectMarshaler.
 func (p invalidPair) MarshalLogObject(enc zapcore.ObjectEncoder) error {
 	enc.AddInt64("position", int64(p.position))
 	Any("key", p.key).AddTo(enc)
@@ -295,6 +296,7 @@ func (p invalidPair) MarshalLogObject(enc zapcore.ObjectEncoder) error {
 
 type invalidPairs []invalidPair
 
+// MarshalLogArray implements zapcore.ArrayMarshaler.
 func (ps invalidPairs) MarshalLogArray(enc zapcore.ArrayEncoder) error {
 	var err error
 	for i := range ps {
