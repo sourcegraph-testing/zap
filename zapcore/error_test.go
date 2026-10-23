@@ -24,9 +24,9 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"runtime"
 	"testing"
 
-	richErrors "github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 
 	"go.uber.org/multierr"
@@ -113,7 +113,7 @@ func TestErrorEncoding(t *testing.T) {
 		},
 		{
 			k:     "k",
-			iface: richErrors.WithMessage(errors.New("egad"), "failed"),
+			iface: withTestMessage(errors.New("egad"), "failed"),
 			want: map[string]interface{}{
 				"k":        "failed: egad",
 				"kVerbose": "egad\nfailed",
@@ -122,12 +122,12 @@ func TestErrorEncoding(t *testing.T) {
 		{
 			k: "error",
 			iface: multierr.Combine(
-				richErrors.WithMessage(
+				withTestMessage(
 					multierr.Combine(errors.New("foo"), errors.New("bar")),
 					"hello",
 				),
 				errors.New("baz"),
-				richErrors.WithMessage(errors.New("qux"), "world"),
+				withTestMessage(errors.New("qux"), "world"),
 			),
 			want: map[string]interface{}{
 				"error": "hello: foo; bar; baz; world: qux",
@@ -161,7 +161,7 @@ func TestErrorEncoding(t *testing.T) {
 func TestRichErrorSupport(t *testing.T) {
 	f := Field{
 		Type:      ErrorType,
-		Interface: richErrors.WithMessage(richErrors.New("egad"), "failed"),
+		Interface: withTestMessage(newTestRichError("egad"), "failed"),
 		Key:       "k",
 	}
 	enc := NewMapObjectEncoder()
@@ -174,4 +174,61 @@ func TestRichErrorSupport(t *testing.T) {
 	assert.Regexp(t, `egad`, serialized, "Expected original error message to be present.")
 	assert.Regexp(t, `failed`, serialized, "Expected error annotation to be present.")
 	assert.Regexp(t, `TestRichErrorSupport`, serialized, "Expected calling function to be present in stacktrace.")
+}
+
+// testRichError is a test-only error implementing fmt.Formatter in the same
+// way as the errors produced by github.com/pkg/errors: "%+v" prints the
+// message followed by the stack captured at creation time, or, for an
+// annotated error, the cause's "%+v" output followed by the annotation.
+type testRichError struct {
+	msg   string
+	cause error
+	stack []uintptr
+}
+
+func newTestRichError(msg string) error {
+	pcs := make([]uintptr, 32)
+	n := runtime.Callers(2, pcs)
+	return &testRichError{msg: msg, stack: pcs[:n]}
+}
+
+func withTestMessage(cause error, msg string) error {
+	return &testRichError{msg: msg, cause: cause}
+}
+
+func (e *testRichError) Error() string {
+	if e.cause == nil {
+		return e.msg
+	}
+	return e.msg + ": " + e.cause.Error()
+}
+
+func (e *testRichError) Unwrap() error { return e.cause }
+
+func (e *testRichError) Format(s fmt.State, verb rune) {
+	switch verb {
+	case 'v':
+		if s.Flag('+') {
+			if e.cause != nil {
+				fmt.Fprintf(s, "%+v\n", e.cause)
+				io.WriteString(s, e.msg)
+				return
+			}
+			io.WriteString(s, e.msg)
+			frames := runtime.CallersFrames(e.stack)
+			for {
+				f, more := frames.Next()
+				fmt.Fprintf(s, "\n%s\n\t%s:%d", f.Function, f.File, f.Line)
+				if !more {
+					break
+				}
+			}
+			return
+		}
+		io.WriteString(s, e.Error())
+	case 's':
+		io.WriteString(s, e.Error())
+	case 'q':
+		fmt.Fprintf(s, "%q", e.Error())
+	}
 }

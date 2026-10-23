@@ -22,11 +22,13 @@ package zap
 
 import (
 	"errors"
+	"fmt"
+	"io"
+	"runtime"
 	"testing"
 
 	"go.uber.org/zap/zapcore"
 
-	richErrors "github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -79,7 +81,7 @@ func TestErrorArrayConstructor(t *testing.T) {
 }
 
 func TestErrorsArraysHandleRichErrors(t *testing.T) {
-	errs := []error{richErrors.New("egad")}
+	errs := []error{newTestRichError("egad")}
 
 	enc := zapcore.NewMapObjectEncoder()
 	Errors("k", errs).AddTo(enc)
@@ -96,4 +98,61 @@ func TestErrorsArraysHandleRichErrors(t *testing.T) {
 	assert.Equal(t, "egad", errMap["error"], "Unexpected standard error string.")
 	assert.Contains(t, errMap["errorVerbose"], "egad", "Verbose error string should be a superset of standard error.")
 	assert.Contains(t, errMap["errorVerbose"], "TestErrorsArraysHandleRichErrors", "Verbose error string should contain a stacktrace.")
+}
+
+// testRichError is a test-only error implementing fmt.Formatter in the same
+// way as the errors produced by github.com/pkg/errors: "%+v" prints the
+// message followed by the stack captured at creation time, or, for an
+// annotated error, the cause's "%+v" output followed by the annotation.
+type testRichError struct {
+	msg   string
+	cause error
+	stack []uintptr
+}
+
+func newTestRichError(msg string) error {
+	pcs := make([]uintptr, 32)
+	n := runtime.Callers(2, pcs)
+	return &testRichError{msg: msg, stack: pcs[:n]}
+}
+
+func withTestMessage(cause error, msg string) error {
+	return &testRichError{msg: msg, cause: cause}
+}
+
+func (e *testRichError) Error() string {
+	if e.cause == nil {
+		return e.msg
+	}
+	return e.msg + ": " + e.cause.Error()
+}
+
+func (e *testRichError) Unwrap() error { return e.cause }
+
+func (e *testRichError) Format(s fmt.State, verb rune) {
+	switch verb {
+	case 'v':
+		if s.Flag('+') {
+			if e.cause != nil {
+				fmt.Fprintf(s, "%+v\n", e.cause)
+				io.WriteString(s, e.msg)
+				return
+			}
+			io.WriteString(s, e.msg)
+			frames := runtime.CallersFrames(e.stack)
+			for {
+				f, more := frames.Next()
+				fmt.Fprintf(s, "\n%s\n\t%s:%d", f.Function, f.File, f.Line)
+				if !more {
+					break
+				}
+			}
+			return
+		}
+		io.WriteString(s, e.Error())
+	case 's':
+		io.WriteString(s, e.Error())
+	case 'q':
+		fmt.Fprintf(s, "%q", e.Error())
+	}
 }
