@@ -283,7 +283,7 @@ func (s *SugaredLogger) sweetenFields(args []interface{}) []Field {
 
 type invalidPair struct {
 	position   int
-	key, value interface{}
+	key, value any
 }
 
 func (p invalidPair) MarshalLogObject(enc zapcore.ObjectEncoder) error {
