@@ -1,5 +1,7 @@
 # :zap: zap [![GoDoc][doc-img]][doc] [![Build Status][ci-img]][ci] [![Coverage Status][cov-img]][cov]
 
+Status: maintained. See [CONTRIBUTING.md](CONTRIBUTING.md) to get involved.
+
 Blazing fast, structured, leveled logging in Go.
 
 ## Installation
