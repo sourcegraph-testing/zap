@@ -51,6 +51,7 @@ func NamedError(key string, err error) Field {
 
 type errArray []error
 
+// MarshalLogArray implements zapcore.ArrayMarshaler.
 func (errs errArray) MarshalLogArray(arr zapcore.ArrayEncoder) error {
 	for i := range errs {
 		if errs[i] == nil {
@@ -73,6 +74,7 @@ type errArrayElem struct {
 	error
 }
 
+// MarshalLogObject implements zapcore.ObjectMarshaler.
 func (e *errArrayElem) MarshalLogObject(enc zapcore.ObjectEncoder) error {
 	// Re-use the error field's logic, which supports non-standard error types.
 	Error(e.error).AddTo(enc)
