@@ -180,7 +180,7 @@ func (cfg Config) Build(opts ...Option) (*Logger, error) {
 	}
 
 	if cfg.Level == (AtomicLevel{}) {
-		return nil, fmt.Errorf("missing Level")
+		return nil, fmt.Errorf("missing Level in Config")
 	}
 
 	log := New(

@@ -120,7 +120,7 @@ func TestConfigWithMissingAttributes(t *testing.T) {
 			cfg: Config{
 				Encoding: "json",
 			},
-			expectErr: "missing Level",
+			expectErr: "missing Level in Config",
 		},
 		{
 			desc: "missing encoder time in encoder config",
