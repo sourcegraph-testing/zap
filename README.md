@@ -115,6 +115,10 @@ oss-conduct@uber.com. That email list is a private, safe space; even the zap
 maintainers don't have access, so don't hesitate to hold us to a high
 standard.
 
+## Support
+
+If you need help or want to report a bug, please open an issue at [github.com/sourcegraph-testing/zap/issues](https://github.com/sourcegraph-testing/zap/issues).
+
 <hr>
 
 Released under the [MIT License](LICENSE.txt).
