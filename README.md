@@ -139,3 +139,5 @@ Maintained by the platform team.
 ## Run B merge check
 
 This draft is reserved for the Run B merge transition check.
+
+Contributions are welcome; please open an issue before a large change.
