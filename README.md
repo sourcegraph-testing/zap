@@ -135,3 +135,7 @@ pinned in the [benchmarks/go.mod][] file. [↩](#anchor-versions)
 Hello World
 Hello World
 Maintained by the platform team.
+
+## Run B merge check
+
+This draft is reserved for the Run B merge transition check.
