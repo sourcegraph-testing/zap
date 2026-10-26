@@ -139,3 +139,5 @@ Maintained by the platform team.
 ## Run B merge check
 
 This draft is reserved for the Run B merge transition check.
+
+Please run gofmt before opening a pull request.
