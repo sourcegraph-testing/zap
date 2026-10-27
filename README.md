@@ -143,3 +143,7 @@ This draft is reserved for the Run B merge transition check.
 ## Dogfood support
 
 Issues are tracked on GitHub.
+
+## Support
+
+To get help or report a problem, please open an issue on this repository's GitHub issue tracker.
