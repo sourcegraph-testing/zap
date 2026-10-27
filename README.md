@@ -143,3 +143,7 @@ This draft is reserved for the Run B merge transition check.
 ## Dogfood support
 
 Issues are tracked on GitHub.
+
+## Support
+
+For questions, bug reports, or feature requests, please [open an issue on GitHub](https://github.com/sourcegraph-testing/zap/issues).
