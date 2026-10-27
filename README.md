@@ -143,3 +143,5 @@ This draft is reserved for the Run B merge transition check.
 ## Dogfood support
 
 Issues are tracked on GitHub.
+
+For security concerns, follow SECURITY.md.
