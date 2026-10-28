@@ -9,8 +9,7 @@ env:
 
 matrix:
   include:
-  - go: 1.13.x
-  - go: 1.14.x
+  - go: 1.27.x
     env: LINT=1
 
 script:
