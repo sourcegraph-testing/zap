@@ -23,7 +23,7 @@ package benchmarks
 import (
 	"io/ioutil"
 
-	"gopkg.in/inconshreveable/log15.v2"
+	"github.com/inconshreveable/log15"
 )
 
 func newLog15() log15.Logger {
